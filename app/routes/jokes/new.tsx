@@ -1,4 +1,12 @@
-import { json, redirect, useActionData, useCatch, Link, Form, useTransition } from 'remix'
+import {
+  json,
+  redirect,
+  useActionData,
+  useCatch,
+  Link,
+  Form,
+  useTransition,
+} from 'remix'
 import type { ActionFunction, LoaderFunction } from 'remix'
 import { db } from '~/utils/db.server'
 import { getUserId, requireUserId } from '~/utils/session.server'
@@ -70,7 +78,20 @@ export default function NewJokeRoute() {
   if (transistion.submission) {
     const name = transistion.submission.formData.get('name')
     const content = transistion.submission.formData.get('content')
-    if( typeof name === 'string' && typeof content === 'string' && !validateJokeContent(content) && !validateJokeName(name))
+    if (
+      typeof name === 'string' &&
+      typeof content === 'string' &&
+      !validateJokeContent(content) &&
+      !validateJokeName(name)
+    ) {
+      return (
+        <JokeDisplay
+          joke={{ name, content }}
+          isOwner={true}
+          canDelete={false}
+        />
+      )
+    }
   }
 
   return (
